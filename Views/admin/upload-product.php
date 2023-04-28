@@ -1,12 +1,16 @@
 <?php
 include_once "../../Database.php";
+
+
+define('REQUIRE_FIELD_ERROR', 'Vui lòng điền vào trường này');
+$errors = [];
 if (($_SERVER['REQUEST_METHOD'] === 'POST')) {
     if (isset($_POST['add-product'])) {
         $title = $_POST['product-title'];
         $quantity = $_POST['product-quantity'];
         $description = $_POST['product-description'];
         $price = $_POST['product-price'];
-
+        $category = $_POST['product-category'];
         if (isset($_FILES['product-image']['name'])) {
             $image_name = $_FILES['product-image']['name'];
             $image_path = $_FILES['product-image']['tmp_name'];
@@ -23,24 +27,24 @@ if (($_SERVER['REQUEST_METHOD'] === 'POST')) {
             }
         }
         if (empty($image_name)) {
-            echo '<script type="text/javascript>
-                    window.alert("Tải thêm hình !!")
-                    window.location.href="upload-product.php"
-            </script>"';
+            $errors['product-image'] = "Vui lòng tải thêm hình";
         }
         if (empty($title) || empty($quantity) || empty($description) || empty($price)) {
-            echo '<script type="text/javascript">
-                    window.alert("Điền đầy đủ vào các trường");
+            $errors['product-title'] =
+                $errors['product-quantity'] =
+                $errors['product-description'] =
+                $errors['product-category'] =
+                $errors['product-price'] = REQUIRE_FIELD_ERROR;
+        } else {
+            $sql = "INSERT INTO `tbl_products` (`title`,`quantity`,`image`,`price`,`description`,`category`) 
+                VALUES ('$title', '$quantity', '$image_name','$price','$description','category')";
+            $result = $conn->query($sql);
+            if ($result) {
+                echo '<script type="text/javascript">
+                    window.alert="Thêm sản phẩm thành công !!"
+                    window.location.href="products-manage.php";
                 </script>';
-        }
-        $sql = "INSERT INTO `tbl_products` (`title`,`quantity`,`image`,`price`,`description`) VALUES ('$title', '$quantity', '$image_name','$price','$description')";
-        $result = $conn->query($sql);
-        echo $result;
-        if ($result) {
-            echo '<script type="text/javascript">
-            window.alert="Thêm sản phẩm thành công !!"
-            window.location.href="products-manage.php";
-        </script>';
+            }
         }
     }
 }
@@ -63,8 +67,8 @@ if (($_SERVER['REQUEST_METHOD'] === 'POST')) {
 
 <body>
     <?php include_once "./partials/header.php" ?>
-    <div class="main-content w-50 mx-auto border border-1">
-        <h2 class="text-center mb-4">Đăng tải sản phẩm</h2>
+    <div class="main-content w-50 mx-auto">
+        <h2 class="text-center mb-4 text-capitalize">Đăng tải sản phẩm</h2>
         <form method="POST" enctype="multipart/form-data" id="form" name="form">
             <div class="mb-3">
                 <label class="form-label fw-bold" for="">Nhập tên sản phẩm:</label>
@@ -80,7 +84,16 @@ if (($_SERVER['REQUEST_METHOD'] === 'POST')) {
             </div>
             <div class="mb-3">
                 <label class="form-label fw-bold" for="">Mô tả sản phẩm:</label>
-                <input class="form-control " type="text" name="product-description" placeholder="Dùng để..." />
+                <input class="form-control " type="text" name="product-description" placeholder="Sản phẩm này dùng để..." />
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold" for="">Loại sản phẩm:</label>
+                <select name="product-category">
+                    <option value="" selected>Chọn loại sản phẩm</option>
+                    <option value="">Ống nước</option>
+                    <option value="">Điện gia dụng</option>
+                    <option value="">Tạp vặt khác</option>
+                </select>
             </div>
             <div class="mb-3">
                 <label class="form-label fw-bold" for="">Hình ảnh sản phẩm: </label>

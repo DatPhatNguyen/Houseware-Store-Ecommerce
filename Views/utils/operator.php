@@ -18,6 +18,24 @@ function renderMultipleRecord($sql): mixed
     }
     return $data;
 }
+function getTotalCount($sql): mixed
+{
+    global $conn;
+    $data   = [];
+    $result = $conn->query($sql);
+    while ($row = $result->fetch_assoc()) {
+        $data[] = $row;
+    }
+    $count = $result->num_rows;
+    return $count;
+}
+function selectAll($table): mixed
+{
+    global $conn;
+    $sql = "SELECT * FROM $table";
+    $result = $conn->query($sql);
+    return $result;
+}
 function validData($data)
 {
     global $conn;

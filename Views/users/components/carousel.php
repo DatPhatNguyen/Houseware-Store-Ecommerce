@@ -9,7 +9,7 @@
 
 <body>
     <section class="carousel">
-        div class="carousel-item"><img src="" alt="" />Content 1</div>
+        <div class="carousel-item"><img src="" alt="" />Content 1</div>
         <div class="carousel-item"><img src="" alt="" />Content 2</div>
         <div class="carousel-item"><img src="" alt="" />Content 3</div>
         <div class="carousel-nav">

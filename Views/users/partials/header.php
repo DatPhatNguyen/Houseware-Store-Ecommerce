@@ -20,11 +20,11 @@ if (empty($_SESSION) && !headers_sent()) {
             <a href="" class="nav-item__logo">
                 <img src="../../../../public/images/shop-logo.png" alt="" />
             </a>
-            <a href="../category.php" class="nav-item" id="nav-item__category">Categories
+            <a href="../category.php" class="nav-item" id="nav-item__category">Phân Loại
                 <i class="fa-solid fa-caret-down"></i>
             </a>
-            <a href="" class="nav-item">Products</a>
-            <a href="" class="nav-item">Favorites</a>
+            <a href="" class="nav-item">Sản Phẩm</a>
+            <a href="" class="nav-item">Sản Phẩm Bán Chạy</a>
         </div>
         <div class="nav-search-input">
             <input type="text" placeholder="Search Product.." />
@@ -43,7 +43,7 @@ if (empty($_SESSION) && !headers_sent()) {
         <div class="nav-access">
             <a href="" class="nav-login__name">
                 <i class="fa-solid fa-user" style="margin-right: 8px"></i>
-                Tên Người dùng</a>
+                Người dùng <?php echo $_SESSION['username'] ?? $_SESSION['username'] ?? '' ?></a>
             <a href="../logout.php" class="nav-logout__btn ">Đăng Xuất</a>
         </div>
     </nav>

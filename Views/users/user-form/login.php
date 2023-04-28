@@ -1,37 +1,26 @@
 <?php
 session_start();
 include_once "../../../Constants.php";
+
+$errors = [];
+define('REQUIRE_FIELD_ERROR', 'Vui lòng điền vào trường này');
+define('REQUIRED_PASSWORD_LENGTH', 'Mật khẩu phải lớn hơn 6 kí tự');
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['login'])) {
-        $errors[] = match ($error) {
-            $error['password'] => '<p class="text-center">Lỗi sai mật khẩu</p>',
-            $error['username'] => '<p class="text-center">Lỗi sai tên đăng nhập</p>',
-            default => '',
-        };
-        array_push($errors, $error);
+
         $username = mysqli_real_escape_string($conn, $_POST['username']);
         $password = md5(mysqli_real_escape_string($conn, $_POST['password']));
         $passwordLength = strlen($password);
         $check = false;
-        $errors = [];
-        define('REQUIRE_FIELD_ERROR', 'Vui lòng điền vào trường này');
-        define('REQUIRED_PASSWORD_LENGTH', 'Mật khẩu phải lớn hơn 6 kí tự');
-        if ($username = 'username' && $password = '123456') {
-            echo "<script language='javascript' type='text/javascript'>
-                window.alert('Đăng nhập thành công !!');
-                window.location.href ='../layout/index.php';
-                </script>";
-            $check = true;;
-            $_SESSION['user'] = $name;
-        }
+
         if ($password === 'd41d8cd98f00b204e9800998ecf8427e') {
             $errors['password'] = REQUIRE_FIELD_ERROR;
         }
+
+
         if (empty($username) || empty($password)) {
             $errors['username'] = $errors['password'] =  REQUIRE_FIELD_ERROR;
-            echo '<script type="text/javascript">
-            window.alert("Vui lòng điền đầy đủ các trường")
-        </script>';
             $check = false;
         } else if ($passwordLength < 6) {
             $errors['password'] = REQUIRED_PASSWORD_LENGTH;
@@ -48,16 +37,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $num = mysqli_num_rows($result);
                 if ($num > 0) {
                     echo "<script language='javascript' type='text/javascript'>
-                window.alert('Đăng nhập thành công !!');
-                window.location.href ='../layout/index.php';
-                </script>";
+                            window.alert('Đăng nhập thành công !!');
+                            window.location.href ='../layout/index.php';
+                            </script>";
                     $check = true;;
                     $_SESSION['user'] = $name;
                 } else {
                     echo "<script language='javascript' type='text/javascript'>
-                window.alert('Tên đăng nhập hoặc mật khẩu không đúng !!');
-                window.location.href ='login.php';
-                </script>";
+                            window.alert('Tên đăng nhập hoặc mật khẩu không đúng !!');
+                            window.location.href ='login.php';
+                            </script>";
                 }
             }
         }
@@ -113,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <img src="https://img.freepik.com/free-vector/chatbot-customer-service-abstract-concept_335657-3037.jpg?w=740&t=st=1681325345~exp=1681325945~hmac=c3bc6fb3377880c87f5cf60f215ec00afdc451308d5d970387717b19c4be3054" alt="Đăng Nhập" class="my-3">
         </div>
         <div class="container mx-auto col-sm-6 col-lg-6">
-            <form method="POST" action="login.php" id="login-form">
+            <form method="POST" id="login-form">
                 <h3 class="text-center text-capitalize mb-4">Đăng nhập</h3>
                 <div class="mb-3">
                     <label class="form-label fw-bold label-text">Tên đăng nhập:</label>

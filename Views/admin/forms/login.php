@@ -1,48 +1,36 @@
 <?php
 session_start();
-include_once "../../../Core/Database.php";
-include_once "../../utils/operator.php";
 $errors = [];
 $check = false;
 define('REQUIRE_FIELD_ERROR', 'Vui lòng điền vào trường này');
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = validData($_POST['name']);
+    $name = validData($_POST['admin-name']);
     $password = validData($_POST['password']);
     if (empty($name) || empty($password)) {
-        $errors['name'] = $errors['password'] = REQUIRE_FIELD_ERROR;
-        echo
-        '<script type="text/javascript">
-            window.alert("Vui lòng điền đầy đủ các trường !!")
-        </script>';
+        $errors['admin-name'] = $errors['password'] = REQUIRE_FIELD_ERROR;
         $check = false;
-    } else if ($name === 'admin' && $password = "123456") {
-        echo "<script language='javascript'>
-                window.alert('Đăng nhập thành công')
-                window.location.href='index.php' 
-            </script>";
-        $_SESSION['admin'] = $name;
-        $check = true;
     } else {
         // admin information
-        $sql = "SELECT * FROM 'admin' WHERE name = '$name' AND password ='$password'";
+        $sql = "SELECT * FROM 'tbl_admin' WHERE admin_name = '$name' AND password ='$password'";
         $admin = renderSingleRecord($sql);
-        // filter name
-        $selectName = "SELECT name FROM `admin` WHERE name = '$name' AND password = '$password'";
+        // get admin name
+        $selectName = "SELECT admin_name FROM `tbl_admin` WHERE admin_name = '$name' AND password = '$password'";
         $query = renderSingleRecord($selectName);
         while ($row = $query->fetch_assoc()) {
-            $name = $row['name'];
+            $name = $row['admin-name'];
         }
         if (mysqli_num_rows($admin) > 0) {
             echo "<script language='javascript'>
-                window.alert('Đăng nhập thành công')
-                window.location.href='index.php' 
-                </script>";
-            $_SESSION['admin'] = $name;
+                    window.alert('Đăng nhập thành công')
+                    window.location.href = '../index.php'
+                 </script>";
+            $_SESSION['admin-name'] = $name;
             $check = true;
         } else {
             echo "<script language='javascript'>
-            window.alert('Tên đăng nhập hoặc mật khẩu không đúng !!')
-            window.location.href='signin.php'</script>";
+                    window.alert('Tên đăng nhập hoặc mật khẩu không đúng !!')
+                    window.location.href = 'login.php'
+                </script>";
             $check = false;
         }
     }
@@ -57,20 +45,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin đăng nhập</title>
     <link rel="stylesheet" href="../../../../public/css/admin/app.css">
+    <?php
+    include_once "../../utils/operator.php";
+    include_once "../../utils/script.php";
+    ?>
 </head>
 
 <body>
     <div class="row mx-auto shadow" style="max-width:60%;border-radius:24px; background:#fff; margin: 50px 0 100px;   ">
         <div class="col-sm-6 col-lg-6" style="border-top-left-radius:24px;border-bottom-left-radius:24px">
-            <img src="../template/images/admin-signin.jpg" alt="admin" class="my-3" style="object-position:center;object-fit:cover; max-width:100%;max-height:100%">
+            <img src="" alt="admin" class="my-3" style="object-position:center;object-fit:cover; max-width:100%;max-height:100%">
         </div>
         <div class="col-md-6 col-lg-6 ">
-            <form method="POST" class="p-5" action="signin.php" id="signin-form">
+            <form method="POST" class="p-5" id="login-form">
                 <h3 class="text-center text-capitalize my-4 text-black fw-bold">Đăng nhập</h3>
                 <div class="mb-3 form-group">
-                    <label class="form-label fw-bold">Tên đăng nhập</label>
+                    <label class="form-label fw-bold">Tên đăng nhập: </label>
                     <input type="text" class="form-control  <?php echo isset($errors['name']) ? 'border border-danger' : ""
-                                                            ?>" name="name" placeholder="Tên đăng nhập..." value=<?php echo isset($name) ? $name : "" ?>>
+                                                            ?>" name="admin-name" placeholder="Tên đăng nhập..." value=<?php echo isset($name) ? $name : "" ?>>
                     <p class="text-danger mt-2 text-error"><?php echo isset($errors['name']) ? $errors['name'] : "" ?>
                     </p>
                 </div>
@@ -89,11 +81,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php
     ?>
 </body>
-<?php include "../../utils/script.php"; ?>
 <script type="text/javascript">
     $(document).ready(function() {
         $("input").focus();
-        $("#signin-form").submit(function(e) {
+        $("#login-form").submit(function(e) {
             e.preventDefault();
         }, )
     }, );
