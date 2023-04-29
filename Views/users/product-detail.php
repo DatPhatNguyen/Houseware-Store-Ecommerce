@@ -1,4 +1,7 @@
 <?php
+include_once "../../Database.php";
+include_once "../utils/operator.php";
+include_once "../utils/script.php";
 session_start();
 if (isset($_POST['add_to_cart'])) {
     $item_id = $_POST['item_id'];
@@ -18,7 +21,6 @@ if (isset($_POST['add_to_cart'])) {
     }
 }
 ?>
->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,46 +28,63 @@ if (isset($_POST['add_to_cart'])) {
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../../public/css/app.css" />
+    <link rel="stylesheet" href="../../../public/css/app.css" />
 </head>
 
 <body>
+    <?php include_once "./partials/header.php" ?>
+
     <section class="product-detail-section">
-
-        <!-- Product main ( image ) -->
-        <div class="product-detail">
-            <div class="product-main-img">
-                <img src="" alt="" />
-            </div>
-        </div>
-
-        <!-- Product detail infor ( name , description, price) -->
-
-        <div class="product-detail_infor">
-            <h2 class="product-name">Tên sản phẩm</h2>
-            <p class="product-description">Mô tả sản phẩm</p>
-            <h2 class="product-price">10.000</h2>
-
-            <!-- Form  -->
-            <form class="product-form__input">
-                <div class="input-cover">
-                    <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">
-                        -
+        <?php
+        $productID = $_GET['productid'] ?? null;
+        $sql = "SELECT * FROM `tbl_products` WHERE id = '$productID'";
+        $products = renderMultipleRecord($sql);
+        foreach ($products as $product) {
+            echo '
+                    <div class="product-detail">
+                        <div class="product-main-img">
+                            <img src=' . $product['image'] . ' alt="" />
+                        </div>
                     </div>
-                    <input type="number" id="number" value="1" />
-                    <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">
-                        +
-                    </div>
-                </div>
-            </form>
 
-            <!-- Cart  -->
-            <div class="product-cash">
-                <button id="buy-btn">Buy Now</button>
-                <button id="atc-btn">Add to Cart</button>
-            </div>
-        </div>
+                    <div class="product-detail_infor">
+                        <h2 class="product-name">' . $product['title'] . '</h2>
+                        <p class="product-description">' . $product['description'] . '</p>
+                    <hr />
+
+                        <h2 class="product-price" style="padding: 6px 0;">' . $product['price'] . '</h2>
+                    <hr />
+                        <form class="product-form__input" style="padding: 6px 0;">
+                            <div class="input-cover">
+                                <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">
+                                    -
+                                </div>
+                                <input type="number" id="number" value="1" />
+                                <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">
+                                    +
+                                </div>
+                            </div>
+                        </form>
+                    <hr />
+
+                        <p class="sold-out">Còn lại <span>' . $product['quantity'] . ' sản phẩm </span>đừng bỏ lỡ</p>
+
+                        <!-- Cart  -->
+                        <form class="product-cash" method="POST">
+                            <button id="buy-btn">Buy Now</button>
+                            <button id="atc-btn">Add to Cart</button>
+                        </form>
+                        <div class="delivery">
+                            <i class="fa-solid fa-truck delivery-freeship__icon"></i>                 
+                            <span class="delivery-freeship__title">Miễn phí vận chuyển</span>
+                            <p class="delivery-freeship__code" >Nhập mã để được miễn phí vận chuyển</p>
+                        </div>
+                    </div>';
+        }
+        ?>
     </section>
+
+    <?php include_once "./partials/footer.php" ?>
 </body>
 
 <script>

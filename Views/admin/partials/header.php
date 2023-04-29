@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (!isset($_SESSION)) {
+    session_start();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,27 +13,26 @@ session_start();
     <style>
     header {
         box-shadow: 2px 4px 18px #000;
-        padding: 24px 100px;
+        padding: 20px 100px;
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
         align-items: center;
     }
 
     .admin-menu__item {
         text-decoration: none;
-        font-size: 18px;
+        font-size: 16px;
         display: inline-block;
         color: #000;
         font-weight: bold;
     }
-
 
     .admin-menu__item i {
         margin-right: 8px;
     }
 
     .admin-account {
-        font-size: 18px;
+        font-size: 16px;
         display: flex;
         align-items: center;
         gap: 30px;
@@ -52,13 +53,17 @@ session_start();
             Quản
             Lý Người
             Dùng</a>
-        <div class="admin-account">
-            <span class="d-inline-block">Hello <?php if (isset($_SESSION['admin'])) echo $_SESSION['admin'] ?></span>
+
+        <?php
+        echo isset($_SESSION['admin']) ?
+            '<div class="admin-account">
+            <span class="d-inline-block">' . $_SESSION['admin'] . '</span>
             <a href="../../Views/admin/logout.php" class="text-decoration-none ">
                 <button class="btn btn-outline-danger fw-bold">Đăng Xuất</button>
             </a>
-        </div>
-
+        </div>'
+            : "";
+        ?>
     </header>
 </body>
 

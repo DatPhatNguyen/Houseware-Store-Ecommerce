@@ -1,3 +1,12 @@
+<?php
+session_start();
+if (empty($_SESSION['admin'])) {
+    echo '<script type="text/javascript">
+window.alert("Trước tiên bạn cần phải đăng nhập !!")
+window.location.href = "../admin/login.php"
+</script>';
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,10 +16,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trang Chủ</title>
     <style>
-        .admin-page {
-            margin: 0 auto;
-            max-width: 1280px;
-        }
+    .admin-page {
+        margin: 0 auto;
+        max-width: 1280px;
+    }
     </style>
 </head>
 
@@ -21,6 +30,8 @@
         include_once './components/dashboard.php';
         ?>
     </div>
+    <?php include_once "./partials/footer.php" ?>
+
 </body>
 <?php include_once "../utils/script.php" ?>
 

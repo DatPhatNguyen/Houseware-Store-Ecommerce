@@ -6,11 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-    .main-content {
-        margin: 32px auto 0 auto;
-        padding: 50px;
-        max-width: 1280px;
-    }
+        .main-content {
+            margin: 32px auto 0 auto;
+            padding: 50px;
+            max-width: 1280px;
+        }
     </style>
 </head>
 
@@ -24,7 +24,7 @@
         <table class="table table-bordered table-striped text-center align-middle bg-light my-5">
             <thead class="text-uppercase ">
                 <tr>
-                    <th scope="col" class="p-3">ID</th>
+                    <th scope="col" class="p-3">ID Đơn Hàng</th>
                     <th scope="col" class="p-3">Tên Người Đặt</th>
                     <th scope="col" class="p-3">Ngày Đặt</th>
                 </tr>
@@ -56,6 +56,8 @@
             </tbody>
         </table>
     </div>
+    <?php include_once "./partials/footer.php" ?>
+
 </body>
 <?php include_once "../../Constants.php" ?>
 

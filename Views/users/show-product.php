@@ -1,5 +1,7 @@
     <?php
-    session_start();
+    if (!isset($_SESSION)) {
+        session_start();
+    }
     if (isset($_POST['add_to_cart'])) {
         $item_id = $_POST['item_id'];
         $item_name = $_POST['item_name'];
@@ -33,19 +35,27 @@
         <div class="product-list__main-content">
             <h4 class="best-selling">Top sản phẩm bán chạy nhất</h4>
             <section class="product-list-section">
+                <?php
+                $sql = "SELECT * FROM `tbl_products` WHERE category ='Ống nước'";
+                $products = renderMultipleRecord($sql);
+                foreach ($products as $product) {
+                    echo '
                 <div class="product-item">
                     <div class="product-item__image">
-                        <a href="./productDetail.php">
-                            <img src="" alt="" />
+                        <a href="../product-detail.php?productid=' . $product['id'] . '">
+                            <img src=' . $product['image'] . ' alt="" />
                         </a>
                     </div>
                     <div class="product-item__infor">
-                        <p class="product-name">Ten san pham</p>
-                        <p class="product-price">10.000<sup>đ</sup></p>
+                        <p class="product-name">' . $product['title'] . '</p>
+                        <p class="product-price">' . $product['price'] . '<sup>đ</sup></p>
                     </div>
-                    <p class="product-item__description">Mo ta san pham</p>
+                    <p class="product-item__description">' . $product['description'] . '</p>
                     <button type="submit" class="btn-atc" value="add_to_cart">Add to Cart</button>
-                </div>
+                    
+                    </div>';
+                }
+                ?>
             </section>
         </div>
     </body>

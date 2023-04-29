@@ -27,17 +27,17 @@
 
             <!-- footer right -->
             <div class="footer-about">
-                <h2 class="footer-about__title">Về chúng tôi</h2>
+                <p class="footer-about__title"> <i class="fa-solid fa-address-card" style="margin-right: 6px;"></i>Về
+                    chúng tôi</p>
                 <p class="footer-about__description">
                     Công ty chúng tôi chuyên cung cấp đồ gia dụng về ống nước, điện gia dụng cùng một số
-                    ngành hành khác liên quan về điện.
+                    ngành hàng khác liên quan về điện.
                 </p>
             </div>
         </div>
         <hr>
-        <p class="copy-right">&copy; 2023 Bản quyền thuộc Công ty xxx</p>
+        <p class="copy-right">&copy; 2023 Bản quyền thuộc về Công ty WaterPipe</p>
     </footer>
 </body>
-<?php include_once "../../../Constants.php" ?>
 
 </html>

@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         .statistic-title {
-            margin: 60px 0 0 32px;
+            margin: 70px 0 0 32px;
             font-weight: 900;
         }
 
@@ -41,41 +41,49 @@
 </head>
 
 <body>
-    <?php include_once "../utils/operator.php" ?>
+    <?php
+    include_once "../utils/operator.php";
+    include_once "../utils/script.php"
+    ?>
     <h2 class="statistic-title text-center">Bảng Thống Kê</h2>
     <div class="dashboard-container">
         <div class="dashboard-item">
             <span class="dashboard-item__product">Tổng số sản phẩm </span>
             <p class="dashboard-item__product-quantity mt-2">
-                Có tất cả <?php
-                            $sql = "SELECT * FROM `tbl_products`";
-                            $totalProduct = getTotalCount($sql);
-                            echo $totalProduct;
-                            ?>
+                Có tất cả
+                <?php
+                $sql = "SELECT * FROM `tbl_products`";
+                $totalProduct = getTotalCount($sql);
+                echo $totalProduct;
+                ?>
                 sản phẩm
             </p>
         </div>
         <div class="dashboard-item">
             <span class="dashboard-item__product">Doanh thu </span>
-            <p class="dashboard-item__product-quantity mt-2"> Có tất cả <?php
-                                                                        $sql = "SELECT * FROM `tbl_products`";
-                                                                        $totalProduct = getTotalCount($sql);
-                                                                        echo $totalProduct;
-                                                                        ?>
-                sản phẩm</p>
+            <p class="dashboard-item__product-quantity mt-2">
+                Doanh thu:
+                <?php
+                $sql = "SELECT * FROM `tbl_orders`";
+                $totalOrder = getTotalCount($sql);
+                echo $totalOrder;
+                ?>
+                VNĐ
+            </p>
         </div>
         <div class="dashboard-item">
             <span class="dashboard-item__product">Só lượng người dùng truy cập </span>
-            <p class="dashboard-item__product-quantity"> Có tất cả <?php
-                                                                    $sql = "SELECT * FROM `tbl_users`";
-                                                                    $totalProduct = getTotalCount($sql);
-                                                                    echo $totalProduct;
-                                                                    ?>
-                sản phẩm</p>
+            <p class="dashboard-item__product-quantity">
+                Có tất cả
+                <?php
+                $sql = "SELECT * FROM `tbl_users`";
+                $totalProduct = getTotalCount($sql);
+                echo $totalProduct;
+                ?>
+                người dùng</p>
         </div>
 
     </div>
 </body>
-<?php include_once "../utils/script.php" ?>
 
 </html>

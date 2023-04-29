@@ -6,11 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-    .main-content {
-        margin: 32px auto 0 auto;
-        padding: 50px;
-        max-width: 1280px;
-    }
+        .main-content {
+            margin: 32px auto 0 auto;
+            padding: 50px;
+            max-width: 1280px;
+        }
     </style>
 </head>
 
@@ -20,7 +20,7 @@
     include_once "../utils/operator.php";
     include_once "partials/header.php"
     ?>
-    <div class="main-content my-5 ">
+    <div class="main-content ">
         <h2 class="text-center text-uppercase" style="font-weight:900">Danh sách người dùng
         </h2>
         <p class="text-center text-secondary" style="font-size:13px">
@@ -32,9 +32,10 @@
             ?>
             người dùng </p>
 
-        <table class="table table-bordered table-striped text-center bg-light  mt-5 mb-3">
+        <table class="table table-bordered table-striped text-center align-middle bg-light  mt-5 mb-3">
             <thead class="text-uppercase text-black lh-lg">
                 <tr>
+                    <th scope="col" class="p-2">ID người dùng</th>
                     <th scope="col" class="p-2">Tên đăng nhập</th>
                     <th scope="col" class="p-2">Ngày thêm</th>
                     <th scope="col" class="p-2">Xóa / Sửa</th>
@@ -42,8 +43,8 @@
             </thead>
             <tbody class="table-group-divider">
                 <?php
-                $sql = "SELECT * FROM tbl_users";
-                $result = renderSingleRecord($sql);
+                $sql = "SELECT * FROM `tbl_users` ";
+                $result = $conn->query($sql);
                 // lay so hang trong database
                 $numRows = $result->num_rows;
                 $numberRowPerPage = 5; // moi trang chua 5 hang
@@ -51,7 +52,7 @@
                 $page = $_GET['page'] ?? $_POST['page'] ??  $page = 1;
                 $startingLimit = ($page - 1) * $numberRowPerPage;
                 $sql = "SELECT * FROM `tbl_users` limit $startingLimit  ,  $numberRowPerPage";
-                // $parents = executeResult($sql);
+                $users = renderMultipleRecord($sql);
                 if (empty($users)) {
                     error_reporting(0);
                     ini_set('display_errors', 0);
@@ -59,18 +60,19 @@
                 foreach ($users as $user) {
                     echo
                     '<tr>
-                            <td class="text-capitalize p-3">' . $user['username'] . '</td>
-                            <td class="p-3">' . $user['created_at'] . '</td>
+                            <td class="text-capitalize ">' . $user['id'] . '</td>
+                            <td class="text-capitalize ">' . $user['username'] . '</td>
+                            <td class="">' . $user['created_at'] . '</td>
                             </td>
-                            <td style="max-width:120px"class=" p-3">
+                            <td style="max-width:120px"class=" ">
                                 <button class="btn btn-danger btn-custom">
                                     <i class="fa-solid fa-trash"></i>
-                                    <a href="delete_user.php?userid=' . $user['user_id'] . '"
+                                    <a href="delete_user.php?userid=' . $user['id'] . '"
                                         class="text-white text-decoration-none ms-1">Xóa</a>
                                 </button>
                                 <button class="btn btn-primary btn-custom ms-2">
                                     <i class="fa-solid fa-pencil "></i>
-                                    <a href="update_user.php?userid=' . $user['user_id'] . '"
+                                    <a href="update_user.php?userid=' . $user['id'] . '"
                                         class="text-white text-decoration-none ms-1">Sửa</a>
                                 </button>
                             </td>
@@ -93,6 +95,8 @@
         }
         ?>
     </div>
+    <?php include_once "./partials/footer.php" ?>
+
 </body>
 
 </html>

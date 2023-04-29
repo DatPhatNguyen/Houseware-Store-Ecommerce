@@ -38,7 +38,7 @@
                     <th scope="col" width="7%" class="p-3">ID</th>
                     <th scope="col" width="15%" class="p-3">Tên Sản Phẩm</th>
                     <th scope="col" width="10%" class="p-3">Số Lượng</th>
-                    <th scope="col" width="10%" class="p-3">Giá</th>
+                    <th scope="col" width="8%" class="p-3">Giá</th>
                     <th scope="col" width="15%" class="p-3">Mô Tả</th>
                     <th scope="col" width="15%" class="p-3">Hình Ảnh</th>
                     <th scope="col" width="10%" class="p-3">Phân Loại</th>
@@ -61,17 +61,17 @@
                             <td class="p-3">' . $product['quantity'] . '</td>
                             <td class="p-3">' . $product['price'] . '</td>
                             <td class="p-3">' . $product['description'] . '</td>
-                            <td class="p-3">' . $product['image'] . '</td>
+                            <td class="p-3"><img src=' . $product['image'] . 'style="width:400px; height:400px;" alt=' . $product['title'] . '></td>
                             <td class="p-3">' . $product['category'] . '</td>
                               <td>
                                     <button class="btn btn-danger btn-custom">
                                         <i class="fa-solid fa-trash"></i>
-                                        <a href="deleteproduct.php?productid=' . $product['id'] . '"
+                                        <a href="delete-product.php?productid=' . $product['id'] . '"
                                             class="text-white text-decoration-none ms-1">Xóa</a>
                                     </button>
                                     <button class="btn btn-primary btn-custom ms-2">
                                         <i class="fa-solid fa-pencil "></i>
-                                        <a href="updateproduct.php?productid=' . $product['id'] . '"
+                                        <a href="update-product.php?productid=' . $product['id'] . '"
                                             class="text-white text-decoration-none ms-1">Sửa</a>
                                     </button>
                                 </td>
@@ -83,6 +83,8 @@
         </table>
 
     </div>
+    <?php include_once "./partials/footer.php" ?>
+
 </body>
 
 
